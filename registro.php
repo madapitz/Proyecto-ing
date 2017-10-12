@@ -4,8 +4,13 @@
 <head>
 <meta charset="utf-8">
 <title>Done!</title>
+	
+<!--fuentes de google-->
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
 
 <style>
+
 
 	 h1{
 		 text-align:center;
@@ -16,20 +21,18 @@
 		 text-align: center;
 		 margin: auto;
 		 margin-bottom: 15px;
+		 margin-top: 0;
 		 border-radius: 5px;
 		 padding: 5px;
 	}
 
 	table{
-		background-color:#D1FCF5;
+		background-color:#0094FF;
 		padding:5px;
-		border:#666 3px solid;
+		/*border:#666 3px solid;*/
 		width: 30%;
-    border-radius: 10px;
-    box-shadow: gray 4px 4px 6px;
-		/*float:right;
-		margin: 20px auto;
-		text-align: left;*/
+                border-radius: 0px 0px 10px 10px;
+                /*margin: 20px auto;*/
 	}
 
 	.no_validado{
@@ -46,18 +49,65 @@
 
 	#identificadorentrada,h2{
 		font-family: 'Quicksand', sans-serif;
-    background-color: #D1FCF5;
-    font-style:normal;
+                background-color: #0094FF;
 	}
 
   h2{
-    text-align: center;
+               text-align: center;
+		color: white;
+		width: 30%;
+		margin : auto;
+		padding-bottom: 10px;
+		padding-top: 10px;
+		border-bottom: white 5px solid;
   }
 
-</style>
+	#identificadorentrada {
+		 /*font-weight: bold;*/
+		 text-align:left;
+		 padding-left: 5px;
+		 margin-bottom: 20px;
+		 color:white;
+	}
 
-<!--fuentes de google-->
-<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+	input, textarea, select, button {
+	  width : 160px;
+		color: #626262;
+		background-color: #FFF;
+	  margin: 0;
+    font-family: 'Space Mono', monospace;
+		border: none;
+		margin-bottom: 10px;
+		margin-top: 10px;
+
+		-webkit-box-sizing: border-box; /* Para google chrome */
+			 -moz-box-sizing: border-box; /* para mozilla firefox */
+				-ms-box-sizing: border-box; /* internet explorer, edge */
+				-o-box-sizing: border-box; /* opera */
+						box-sizing: border-box; /* otros */
+	}
+
+
+
+	input[type=submit]:hover{
+	background-color: #D2F9FF;
+	}
+
+	input[type=submit]:focus{
+	background-color: #9FF1FE;
+  color: black;
+  }
+
+
+
+::-webkit-input-placeholder { /* google chrome y edge */
+    color:    #CDCDCD;
+		padding-left: 5px;
+}
+
+
+</style>
 
 </head>
 
@@ -68,13 +118,6 @@
 
 <!---inicia el formulario-->
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off">
-
-
- <datalist id ="generos">
- <option value="Mujer">
- <option value="Hombre">
- </datalist>
-
 
 
   <table align="center">
@@ -116,6 +159,10 @@
     </tr>
 
     <tr>
+      <datalist id ="generos">
+      <option value="Mujer">
+      <option value="Hombre">
+      </datalist>
       <td id ="identificadorentrada">Genero</td>
       <td><label for="genero_usuario"></label>
       <input type="text" name="genero_usuario" id="genero_usuario" list="generos"></td>
