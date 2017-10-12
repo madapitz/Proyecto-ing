@@ -66,7 +66,7 @@
 
 <h2>Ejemplo de formulario de registro</h2>
 
-<!---inicia el formulario------------------------------->
+<!---inicia el formulario-->
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off">
 
 
@@ -122,7 +122,7 @@
     </tr>
 
     <tr>
-			<td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
+      <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
       <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
     </tr>
 
@@ -132,7 +132,7 @@
 
   </table>
 </form>
-<!---termina el formulario------------------------------->
+<!---termina el formulario-->
 
 
 <?php
