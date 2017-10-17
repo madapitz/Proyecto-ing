@@ -7,7 +7,7 @@ var Usuario = mongoose.model('Usuario', {
     type: String,
     trim: true,
     minlength: 1,
-    maxlength: 30,
+    maxlength: 50,
     required: true,
     unique: true,
     validate: {
@@ -21,7 +21,7 @@ var Usuario = mongoose.model('Usuario', {
     type: String,
     minlength: 1,
     maxlength: 20,
-    required: false,
+    required: true,
     unique: true
   },
 
@@ -40,14 +40,14 @@ var Usuario = mongoose.model('Usuario', {
     type: String,
     minlength: 1,
     maxlength: 50,
-    required: false
+    required: true
   },
 
   apellido: {
     type: String,
     minlength: 1,
     maxlength: 50,
-    required: false
+    required: true
   },
 
   fechaDeNacimiento: {
@@ -75,11 +75,11 @@ var Usuario = mongoose.model('Usuario', {
   tokens: [{
     access: {
       type: String,
-      require: false
+      require: true
     },
     token: {
       type: String,
-      require: false
+      require: true
     }
   }]
 });
