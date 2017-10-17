@@ -9,7 +9,7 @@ beforeEach((done) => {
   Tarea.remove({}).then(() => done());
 })
 
-describe('POST /tarea', () => {
+describe('ENVIAR /tarea', () => {
   it('Debería crear una nueva tarea', (done) => {
     var titulo = 'Prueba';
     var descripcion = 'Esto es una prueba';
@@ -37,8 +37,57 @@ describe('POST /tarea', () => {
       });
   });
 
-  it('No debería crear un usuario con un título inválido', (done) => {
-    var titulo = '!@#hu34';
+  it('El título solo debe contener caracteres Alfanuméricos', (done) => {
+    var titulo = 'Otra prueba';
+    var descripcion = 'Esto es una prueba';
+
+    request(app)
+      .post('/tareas')
+      .send({
+        titulo,
+        descripcion
+      })
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+        }
+
+        Tarea.find().then((tareas) => {
+          expect(tareas.length).toBe(0);
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+  it('El título no puede estar vacío', (done) => {
+    var titulo = '';
+    var descripcion = 'Esto es una prueba';
+
+    request(app)
+      .post('/tareas')
+      .send({
+        titulo,
+        descripcion
+      })
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+        }
+
+        Tarea.find().then((tareas) => {
+          expect(tareas.length).toBe(0);
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+  it('El título no puede contener más de 255 caracteres', (done) => {
+    var titulo = '12345678901234567890123456789012345678901234567890' +
+    '1234567890123456789012345678901234567890123456789012345678901234567890' +
+    '1234567890123456789012345678901234567890123456789012345678901234567890' +
+    '1234567890123456789012345678901234567890123456789012345678901234567890';
     var descripcion = 'Esto es una prueba';
 
     request(app)
