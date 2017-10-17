@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const _ = require('lodash');
+const {MD5} = require('crypto-js');
+const jwt = require('jsonwebtoken');
 
-var Usuario = mongoose.model('Usuario', {
+var ModeloDeUsuario = new mongoose.Schema({
   email: {
     type: String,
     trim: true,
@@ -73,7 +75,7 @@ var Usuario = mongoose.model('Usuario', {
   },
 
   tokens: [{
-    access: {
+    acceso: {
       type: String,
       require: true
     },
@@ -84,6 +86,29 @@ var Usuario = mongoose.model('Usuario', {
   }]
 });
 
-// var Usuario = mongoose.model('User', ModeloDelUsuario);
+ModeloDeUsuario.methods.toJSON = function() {
+  var usuario = this;
+  var objetoUsuario = usuario.toObject();
+  var camposPermitidos = ['_id', 'email', 'username', 'nombre', 'apellido', 'fechaDeNacimiento'];
+
+  return _.pick(objetoUsuario, camposPermitidos);
+};
+
+ModeloDeUsuario.methods.generarTokenDeAutenticacion = function() {
+  // El .methods permite crear métodos que pueden ser utilizados
+  // en los objetos de la clase Usuario
+  var usuario = this;
+  var acceso = 'auth';
+  var token = jwt.sign({_id: usuario._id.toHexString(), acceso}, 'abc123').toString();
+
+  usuario.tokens.push({acceso, token});
+
+  return usuario.save().then(() => {
+    return token;
+  });
+};
+
+
+var Usuario = mongoose.model('Usuario', ModeloDeUsuario);
 
 module.exports = {Usuario};
