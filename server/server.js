@@ -6,6 +6,7 @@ const _ = require('lodash');
 var {mongoose} = require('./db/mongoose');
 var {Tarea} = require('./modelos/tarea');
 var {Usuario} = require('./modelos/usuario');
+var {autenticar} = require('./middleware/autenticar');
 
 var app = express();
 
@@ -41,6 +42,13 @@ app.post('/usuarios', (req, res) => {
     res.status(400).send(e);
   });
 });
+
+
+//GET busca un usuario
+app.get('/usuarios/me', autenticar, (req, res) => {
+  res.send(req.usuario)
+});
+
 
 app.listen(3000, () => {
   console.log('El servidor está en el puerto 3000');

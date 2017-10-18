@@ -75,6 +75,11 @@ var ModeloDeUsuario = new mongoose.Schema({
   },
 
   tokens: [{
+  // El token se crea cada vez que un usuario inicia sesión en algún dispositivo
+  // al cerrar sesión el token es eliminado
+  // Cada token es único del usuario y esto valida que el usuario es quien dice ser
+  // ya metido dentro de la aplicación para hacer algún cambio en alguna parte
+  // como eliminar una tarea o hacer algún cambio en su perfil
     acceso: {
       type: String,
       require: true
@@ -108,6 +113,24 @@ ModeloDeUsuario.methods.generarTokenDeAutenticacion = function() {
   });
 };
 
+ModeloDeUsuario.statics.findByToken = function(token) {
+  // .static crea un método estático de la clase
+  // No es necesario crear un objeto para usar este método
+  var Usuario = this;
+  var usuarioDecodificado;
+
+  try {
+    usuarioDecodificado = jwt.verify(token, 'abc123');
+  } catch (e) {
+    return Promise.reject();
+  }
+
+  return Usuario.findOne({
+    _id: usuarioDecodificado._id,
+    'tokens.token': token,
+    'tokens.acceso': 'auth'
+  });
+};
 
 var Usuario = mongoose.model('Usuario', ModeloDeUsuario);
 
