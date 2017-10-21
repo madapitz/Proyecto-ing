@@ -4,106 +4,33 @@
 <head>
 <meta charset="utf-8">
 <title>Done!</title>
-	
-<!--fuentes de google-->
-<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
 
-<style>
-	 h1{
-		 text-align:center;
-		 font-family: 'Quicksand', sans-serif;
-		 color: white;
-		 background-color: #666;
-		 width: 50%;
-		 text-align: center;
-		 margin: auto;
-		 margin-bottom: 15px;
-		 margin-top: 0;
-		 border-radius: 5px;
-		 padding: 5px;
-	}
-	table{
-		background-color:#0094FF;
-		padding:5px;
-		/*border:#666 3px solid;*/
-		width: 30%;
-                border-radius: 0px 0px 10px 10px;
-                /*margin: 20px auto;*/
-	}
-	.no_validado{
-		font-size:18px;
-		color:#F00;
-		font-weight:bold;
-	}
-	.validado{
-		font-size:18px;
-		color:#0C3;
-		font-weight:bold;
-	}
-	#identificadorentrada,h2{
-		font-family: 'Quicksand', sans-serif;
-                background-color: #0094FF;
-	}
-  h2{
-               text-align: center;
-		color: white;
-		width: 30%;
-		margin : auto;
-		padding-bottom: 10px;
-		padding-top: 10px;
-		border-bottom: white 5px solid;
-  }
-	#identificadorentrada {
-		 /*font-weight: bold;*/
-		 text-align:left;
-		 padding-left: 5px;
-		 margin-bottom: 20px;
-		 color:white;
-	}
-	input, textarea, select, button {
-	  width : 160px;
-		color: #626262;
-		background-color: #FFF;
-	  margin: 0;
-    font-family: 'Space Mono', monospace;
-		border: none;
-		margin-bottom: 10px;
-		margin-top: 10px;
-		-webkit-box-sizing: border-box; /* Para google chrome */
-			 -moz-box-sizing: border-box; /* para mozilla firefox */
-				-ms-box-sizing: border-box; /* internet explorer, edge */
-				-o-box-sizing: border-box; /* opera */
-						box-sizing: border-box; /* otros */
-	}
-	input[type=submit]:hover{
-	background-color: #D2F9FF;
-	}
-	input[type=submit]:focus{
-	background-color: #9FF1FE;
-  color: black;
-  }
-::-webkit-input-placeholder { /* google chrome y edge */
-    color:    #CDCDCD;
-		padding-left: 5px;
-}
-</style>
+<!--fuentes de google-->
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet"/> <!--font-family: 'Quicksand', sans-serif;-->
+<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet"/> <!--font-family: 'Space Mono', monospace;-->
+<link href="https://fonts.googleapis.com/css?family=Megrim" rel="stylesheet"/> <!--font-family: 'Megrim', cursive;-->
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/> <!--font-family: 'Roboto', sans-serif;-->
+<!--<link rel="stylesheet" href="estilos.css"/>-->
+<link rel ="Stylesheet" href="estilos2.css"/>
+<!--aqui hay dos hojas, una para las pruebas y otra que se puede usar-->
+
+
 
 </head>
 
 <body>
-<h1>Done! -- Manage your taks</h1> <!--titulo-->
 
-<h2>Ejemplo de formulario de registro</h2>
+<h1>Ejemplo de registro</h1> <!--titulo-->
 
-<!---inicia el formulario-->
+<h2>Reg&iacutestrate en Done!</h2>
+
+<!---inicia el formulario------------------------------->
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off">
 
-
-  <table align="center">
+  <table align = "center">
 
     <tr>
-      <td id ="identificadorentrada">Email</td>
+      <td id ="identificadorentrada">E-mail</td>
       <td><label for="email_usuario"></label>
       <input type="email" name="email_usuario" id="email_usuario" placeholder="Introduzca un email válido"></td>
     </tr>
@@ -138,81 +65,49 @@
       <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"></td>
     </tr>
 
+
     <tr>
-      <datalist id ="generos">
-      <option value="Mujer">
-      <option value="Hombre">
-      </datalist>
-      <td id ="identificadorentrada">Genero</td>
-      <td><label for="genero_usuario"></label>
+		<datalist id ="generos">
+		  <option value="Mujer"/>
+		  <option value="Hombre"/>
+		</datalist>
+      <td id ="identificadorentrada">G&eacutenero</td>
+    <td><label for="genero_usuario"></label>
       <input type="text" name="genero_usuario" id="genero_usuario" list="generos"></td>
     </tr>
 
+
     <tr>
-      <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
+			<td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
       <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
     </tr>
 
     <tr>
-      <td colspan="2" align="center"><input type="submit" name="enviando" id="enviando" value="Iniciar"></td>
+      <td colspan="2" align="center"><input type="submit"  name="enviando" id="enviando" value="Registrarse"></td>
     </tr>
 
   </table>
-</form>
-<!---termina el formulario-->
 
+</form>
+<!---termina el formulario------------------------------->
+
+<h3>Done</h3>
 
 <?php
-    class usuario{
-    	private $email;
-    	private $nombre;
-    	private $edad;
-    	private $contrasena;
-    	private $genero;
-    	private $nacimiento;
-    	function usuario(){
-			$this->nombre = $_POST["nombre_usuario"]; // $post es una variable superglobal de psp (array)
-			$this->edad=$_POST["edad_usuario"];
-      		$this->contrasena=$_POST["contrasena_usuario"];
-      		$this->contrasena_2=$_POST["contrasena_usuario_repetir"];
-      		$this->email=$_POST["email_usuario"];
-      		$this->nacimiento=$_POST["fecha_nacimiento"];
-      		$this->genero=$_POST["genero_usuario"];
-    	}
-        function getnombre(){        	
-        	return $this->nombre;
-        }
-        function getedad(){
-        	return $this->edad;
-        }
-        function getcontrasena(){
-        	return $this->contrasena;
-        }
-        function getcontrasena_2(){
-        	return $this->contrasena_2;
-        }
-        function getemail(){
-        	return $this->email;
-        }
-        function getnacimiento(){
-        	return $this->nacimiento;
-        }
-        function getgenero(){
-        	return $this->genero;
-        }
-       }
-       if (isset($_POST["enviando"])){ //comprueba si hemos pulsado el boton enviar
-    	    $usuario= new usuario();
-			 echo "<br><br>Lo que se registró:";
- 			 echo "<br> Nombre del usuario: ".$usuario->getnombre()."<br>";
- 			echo "<br> Edad del usuario: ".$usuario->getedad()."<br>";
- 			echo "<br> Constraseña del usuario: ".$usuario->getcontrasena()."<br>";
- 			echo "<br> Contrasena del usuario (intento 2): ".$usuario->getcontrasena_2()."<br>";
- 			echo "<br> Email: ".$usuario->getemail()."<br>";
- 			echo "<br> Nacimiento: ".$usuario->getnacimiento()."<br>";
- 			echo "<br> Genero del usuario: ".$usuario->getgenero()."<br>";
-		}
+
+  include("Usuario.php");
+  include("Validador.php");
+
+
+  $usuario1 = new Usuario();
+
+	if (isset($_POST["enviando"])){
+  $usuario1->ImprimirDatosUsuario();}
+
+
+
 ?>
 
 </body>
+
 </html>
