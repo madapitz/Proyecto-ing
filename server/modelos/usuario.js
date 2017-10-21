@@ -132,6 +132,20 @@ ModeloDeUsuario.statics.findByToken = function(token) {
   });
 };
 
+ModeloDeUsuario.pre('save', function(next) {
+  // Este método encripta la contraseña de la forma MD5
+  var user = this;
+
+  if (user.isModified('password')) {
+    var encriptado = MD5(user.password).toString();
+    encriptado += 'kuasdkuasd';
+    user.password = encriptado;
+    next();
+  } else {
+    next();
+  }
+});
+
 var Usuario = mongoose.model('Usuario', ModeloDeUsuario);
 
 module.exports = {Usuario};
