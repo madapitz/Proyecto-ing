@@ -99,7 +99,7 @@ ModeloDeUsuario.methods.toJSON = function() {
   return _.pick(objetoUsuario, camposPermitidos);
 };
 
-ModeloDeUsuario.methods.generarTokenDeAutenticacion = function() {
+ModeloDeUsuario.methods.generarTokenDeAutenticidad = function() {
   // El .methods permite crear métodos que pueden ser utilizados
   // en los objetos de la clase Usuario
   var usuario = this;
@@ -110,6 +110,16 @@ ModeloDeUsuario.methods.generarTokenDeAutenticacion = function() {
 
   return usuario.save().then(() => {
     return token;
+  });
+};
+
+ModeloDeUsuario.methods.removeToken = function(token) {
+  var usuario = this;
+
+  usuario.update({
+    $pull: {
+      tokens: {token}
+    }
   });
 };
 
@@ -132,19 +142,45 @@ ModeloDeUsuario.statics.findByToken = function(token) {
   });
 };
 
+ModeloDeUsuario.statics.findByCredentials = function(email, password) {
+  var Usuario = this;
+  return Usuario.findOne({email}).then((usuario) => {
+    if (!usuario) {
+      return Promise.reject();
+    }
+    return new Promise((resolve, reject) => {
+      if (passwordCoinciden(usuario.password, password)) {
+        resolve(usuario);
+      } else {
+        reject();
+      }
+    });
+  });
+};
+
 ModeloDeUsuario.pre('save', function(next) {
   // Este método encripta la contraseña de la forma MD5
-  var user = this;
+  var usuario = this;
 
-  if (user.isModified('password')) {
-    var encriptado = MD5(user.password).toString();
-    encriptado += 'kuasdkuasd';
-    user.password = encriptado;
+  if (usuario.isModified('password')) {
+    usuario.password = encriptarPassword(usuario.password);
     next();
   } else {
     next();
   }
 });
+
+var passwordCoinciden = (passwordUsuario, password) => {
+  password = encriptarPassword(password);
+  console.log(password);
+  console.log(passwordUsuario);
+  return (password === passwordUsuario);
+};
+
+var encriptarPassword = (password) => {
+  var encriptado = MD5(password).toString();
+  return encriptado + 'kuasdkuasd';
+};
 
 var Usuario = mongoose.model('Usuario', ModeloDeUsuario);
 

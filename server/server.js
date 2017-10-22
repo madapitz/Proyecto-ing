@@ -1,3 +1,4 @@
+require('./config/config');
 const express = require('express');
 const validator = require('validator');
 const bodyParser = require('body-parser');
@@ -9,6 +10,7 @@ var {Usuario} = require('./modelos/usuario');
 var {autenticar} = require('./middleware/autenticar');
 
 var app = express();
+var port = process.env.PORT;
 
 app.use(bodyParser.json());
 
@@ -35,7 +37,7 @@ app.post('/usuarios', (req, res) => {
   var usuario = new Usuario(body);
 
   usuario.save().then(() => {
-    return usuario.generarTokenDeAutenticacion();
+    return usuario.generarTokenDeAutenticidad();
   }).then((token) => {
     res.header('x-auth', token).send(usuario);
   }).catch((e) => {
@@ -46,12 +48,33 @@ app.post('/usuarios', (req, res) => {
 
 //GET busca un usuario
 app.get('/usuarios/me', autenticar, (req, res) => {
-  res.send(req.usuario)
+  res.send(req.usuario);
 });
 
 
-app.listen(3000, () => {
-  console.log('El servidor está en el puerto 3000');
+//Iniciar sesión
+app.post('/usuarios/login', (req, res) => {
+  var camposPermitidos = ['email', 'password'];
+  var body = _.pick(req.body, camposPermitidos);
+
+  Usuario.findByCredentials(body.email, body.password).then((usuario) => {
+    res.send(usuario);
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
+});
+
+
+app.delete('/usuarios/me/token', autenticar, (req, res) => {
+  req.usuario.removeToken(req.token).then(() => {
+    res.status(200).send();
+  }, () => {
+    res.status(400).send();
+  });
+});
+
+app.listen(port, () => {
+  console.log(`El servidor está en el puerto ${port}`);
 });
 
 module.exports = {app};

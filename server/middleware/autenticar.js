@@ -1,4 +1,4 @@
-var {User} = require('./../modelos/usuario');
+var {Usuario} = require('./../modelos/usuario');
 
 var autenticar = (req, res, next) => {
   var token = req.header('x-auth');
