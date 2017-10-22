@@ -1,3 +1,7 @@
+// Hay un constante llamada PASS_SECRET y otra llamada JWT_SECRET
+// Estas variables son constantes son unas letras al azar para
+// hacer que la contraseña y el token sean más seguros
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 const _ = require('lodash');
@@ -104,7 +108,7 @@ ModeloDeUsuario.methods.generarTokenDeAutenticidad = function() {
   // en los objetos de la clase Usuario
   var usuario = this;
   var acceso = 'auth';
-  var token = jwt.sign({_id: usuario._id.toHexString(), acceso}, 'abc123').toString();
+  var token = jwt.sign({_id: usuario._id.toHexString(), acceso}, process.env.JWT_SECRET).toString();
 
   usuario.tokens.push({acceso, token});
 
@@ -130,7 +134,7 @@ ModeloDeUsuario.statics.findByToken = function(token) {
   var usuarioDecodificado;
 
   try {
-    usuarioDecodificado = jwt.verify(token, 'abc123');
+    usuarioDecodificado = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject();
   }
@@ -179,7 +183,7 @@ var passwordCoinciden = (passwordUsuario, password) => {
 
 var encriptarPassword = (password) => {
   var encriptado = MD5(password).toString();
-  return encriptado + 'kuasdkuasd';
+  return encriptado + process.env.PASS_SECRET;
 };
 
 var Usuario = mongoose.model('Usuario', ModeloDeUsuario);
