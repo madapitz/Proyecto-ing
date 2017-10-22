@@ -29,6 +29,7 @@ app.post('/tareas', (req, res) => {
 
 
 // POST guarda el usuario en la base de datos
+// Crear Usuario
 app.post('/usuarios', (req, res) => {
   var camposPermitidos = ['email', 'password', 'username', 'nombre', 'apellido', 'fechaDeNacimiento'];
   // camposPermitidos es utilizada para incrementar la seguridad de la aplicación
@@ -47,26 +48,30 @@ app.post('/usuarios', (req, res) => {
 
 
 //GET busca un usuario
+// Busca los datos del usuario
 app.get('/usuarios/me', autenticar, (req, res) => {
   res.send(req.usuario);
 });
 
 
-//Iniciar sesión
+// Iniciar sesión
 app.post('/usuarios/login', (req, res) => {
   var camposPermitidos = ['email', 'password'];
   var body = _.pick(req.body, camposPermitidos);
 
   Usuario.findByCredentials(body.email, body.password).then((usuario) => {
-    res.send(usuario);
+    usuario.generarTokenDeAutenticidad().then((token) => {
+      res.header('x-auth', token).send(usuario);
+    });
   }).catch((e) => {
     res.status(400).send(e);
   });
 });
 
-
+// Cerrar Sesión
 app.delete('/usuarios/me/token', autenticar, (req, res) => {
-  req.usuario.removeToken(req.token).then(() => {
+
+  req.usuario.eliminarToken(req.token).then(() => {
     res.status(200).send();
   }, () => {
     res.status(400).send();

@@ -117,10 +117,10 @@ ModeloDeUsuario.methods.generarTokenDeAutenticidad = function() {
   });
 };
 
-ModeloDeUsuario.methods.removeToken = function(token) {
+ModeloDeUsuario.methods.eliminarToken = function(token) {
   var usuario = this;
 
-  usuario.update({
+  return usuario.update({
     $pull: {
       tokens: {token}
     }
@@ -140,7 +140,7 @@ ModeloDeUsuario.statics.findByToken = function(token) {
   }
 
   return Usuario.findOne({
-    _id: usuarioDecodificado._id,
+    '_id': usuarioDecodificado._id,
     'tokens.token': token,
     'tokens.acceso': 'auth'
   });
@@ -148,12 +148,14 @@ ModeloDeUsuario.statics.findByToken = function(token) {
 
 ModeloDeUsuario.statics.findByCredentials = function(email, password) {
   var Usuario = this;
+
   return Usuario.findOne({email}).then((usuario) => {
     if (!usuario) {
       return Promise.reject();
     }
+
     return new Promise((resolve, reject) => {
-      if (passwordCoinciden(usuario.password, password)) {
+      if (passwordsCoinciden(usuario.password, password)) {
         resolve(usuario);
       } else {
         reject();
@@ -174,10 +176,8 @@ ModeloDeUsuario.pre('save', function(next) {
   }
 });
 
-var passwordCoinciden = (passwordUsuario, password) => {
+var passwordsCoinciden = (passwordUsuario, password) => {
   password = encriptarPassword(password);
-  console.log(password);
-  console.log(passwordUsuario);
   return (password === passwordUsuario);
 };
 
