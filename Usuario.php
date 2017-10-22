@@ -11,22 +11,21 @@ class Usuario{
   private $genero;
 
 //constructor
- function Usuario(){
+ function Usuario($id,$edad,$contrasena,$contrasena2,$email,$nacimiento, $genero){
 
-   if (isset($_POST["enviando"])){ //comprueba si hemos pulsado el boton enviar
-     $this->id = $_POST["nombre_usuario"]; // $post es una variable superglobal de psp (array)
-     $this->edad=$_POST["edad_usuario"];
-     $this->contrasena=$_POST["contrasena_usuario"];
-     $this->contrasena_2=$_POST["contrasena_usuario_repetir"];
-     $this->email=$_POST["email_usuario"];
-     $this->nacimiento=$_POST["fecha_nacimiento"];
-     $this->genero=$_POST["genero_usuario"];
+    //comprueba si hemos pulsado el boton enviar
+     $this->id = $id; // $post es una variable superglobal de psp (array)
+     $this->edad= $edad;
+     $this->contrasena= $contrasena;
+     $this->contrasena_2= $contrasena2;
+     $this->email= $email;
+     $this->nacimiento= $nacimiento;
+     $this->genero= $genero;
 
      /*con las dos lineas de codigo anteriores lo que estamos haciendo es
       *asignarle a una variable local de php lo que el usuario introdujo
       *en el nombre_usuario, que es almacenado automaticamente en el
       *$POST_*/
-  }
 }
 
 //metodos
