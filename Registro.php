@@ -11,10 +11,14 @@
 <link href="https://fonts.googleapis.com/css?family=Megrim" rel="stylesheet"/> <!--font-family: 'Megrim', cursive;-->
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/> <!--font-family: 'Roboto', sans-serif;-->
 <!--<link rel="stylesheet" href="estilos.css"/>-->
-<link rel ="Stylesheet" href="estilos2.css"/>
+<link rel ="Stylesheet" href="estilos.css"/>
 <!--aqui hay dos hojas, una para las pruebas y otra que se puede usar-->
 
-
+<style type="text/css">
+	.error{
+		color: red;
+	}
+</style>
 
 </head>
 
@@ -24,8 +28,46 @@
 
 <h2>Reg&iacutestrate en Done!</h2>
 
-<!---inicia el formulario------------------------------->
-<form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off">
+<!-- -inicia el formulario----------------------------- -->
+<?php
+	$nameErr = $passwordErr = $password2Err ="";
+	$nombre = $email = $pass = $pass2 = $genero = "";
+	$edad = 0;
+
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$edad = (int) $_POST["edad_usuario"];
+		$email = $_POST["email_usuario"];
+		$genero = $_POST["genero_usuario"];
+
+		if(empty($_POST["nombre_usuario"])){
+			$nameErr = "Se requiere un nombre de usuario";
+		} else{
+			$nombre = comprobar($_POST["nombre_usuario"]);
+		}
+
+		if (empty($_POST["contrasena_usuario"])){
+			$passwordErr = "Se requiere una contraseña";
+		} else{
+			$pass = comprobar($_POST["contrasena_usuario"]);
+		}
+
+		if(empty($_POST["contrasena_usuario_repetir"])){
+			$password2Err = "Se requiere que repita la contraseña";
+		} else{
+			$pass2 = comprobar($_POST["contrasena_usuario_repetir"]);
+		}
+
+	}
+
+	function comprobar($dato){
+		if(strlen($dato) <= 50){
+			return $dato;
+		}
+		return "";
+	}
+?>
+
+<form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
   <table align = "center">
 
@@ -38,19 +80,19 @@
     <tr>
       <td id ="identificadorentrada">Nombre de usuario</td>
       <td><label for="nombre_usuario"></label>
-      <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Elija nombre de usuario"></td>
+      <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Elija nombre de usuario"><span class="error">* <?php echo $nameErr; ?></span></td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">Contraseña</td>
       <td><label for="contrasena_usuario"></label>
-      <input type="password" name="contrasena_usuario" id="constrasena_usuario" placeholder="Elija constraseña"></td>
+      <input type="password" name="contrasena_usuario" id="contrasena_usuario" placeholder="Elija constraseña"><span class="error">* <?php echo $passwordErr ?></span></td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">Repetir contraseña</td>
       <td><label for="contrasena_usuario_repetir"></label>
-      <input type="password" name="contrasena_usuario_repetir" id="constrasena_usuario_repetir" placeholder="Verificar contraseña"></td>
+      <input type="password" name="contrasena_usuario_repetir" id="constrasena_usuario_repetir" placeholder="Verificar contraseña"><span class="error">* <?php echo $password2Err ?></span></td>
     </tr>
 
     <tr>
@@ -78,7 +120,7 @@
 
 
     <tr>
-			<td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
+			<td>&nbsp;</td> <!-- &nbsp crea un espacio horizontal -->
       <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
     </tr>
 
@@ -89,7 +131,7 @@
   </table>
 
 </form>
-<!---termina el formulario------------------------------->
+<!-- -termina el formulario----------------------------- -->
 
 <h3>Done</h3>
 
@@ -99,7 +141,8 @@
   include("Validador.php");
 
 
-  $usuario1 = new Usuario();
+
+  $usuario1 = new Usuario($nombre,$edad,$pass,$pass2,$email,0,$genero);
 
 	if (isset($_POST["enviando"])){
   $usuario1->ImprimirDatosUsuario();}
