@@ -10,7 +10,7 @@ var {Usuario} = require('./modelos/usuario');
 var {autenticar} = require('./middleware/autenticar');
 
 var app = express();
-var port = process.env.PORT;
+var port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
