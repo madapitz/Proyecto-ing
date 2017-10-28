@@ -162,7 +162,7 @@
   $usuario1 = new Usuario($nombre,$edad,$pass,$pass2,$email,0,$genero);
 
 	if (isset($_POST["enviando"])){
-  $usuario1->transformToJson;}
+  $usuario1->transformToJson();}
 
 
 
