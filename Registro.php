@@ -31,13 +31,15 @@
 <!-- -inicia el formulario----------------------------- -->
 <?php
 	$nameErr = $passwordErr = $password2Err ="";
-	$nombre = $email = $pass = $pass2 = $genero = "";
+	$nombrep = $apellido =$nombre = $email = $pass = $pass2 = $genero = "";
 	$edad = 0;
 
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$edad = (int) $_POST["edad_usuario"];
 		$email = $_POST["email_usuario"];
 		$genero = $_POST["genero_usuario"];
+		$nombrep = $_POST["nombre_persona"];
+		$apellido = $_POST["apellido_persona"];
 
 		if(empty($_POST["nombre_usuario"])){
 			$nameErr = "Se requiere un nombre de usuario";
@@ -70,6 +72,21 @@
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
   <table align = "center">
+  	<tr>
+  		<td id="identificadorentrada">Nombre</td>
+  		<td>
+  			<label for="nombre_persona"></label>
+  			<input type="text" name="nombre_persona" id="nombre_persona" placeholder="Introduzca su nombre">
+  		</td>	
+  	</tr>
+
+  	<tr>
+  		<td id="identificadorentrada">Apellido</td>
+  		<td>
+  			<label for="apellido_persona"></label>
+  			<input type="text" name="apellido_persona" id="apellido_persona" placeholder="Introduzca su apelldo">
+  		</td>
+  	</tr>
 
     <tr>
       <td id ="identificadorentrada">E-mail</td>
@@ -145,7 +162,7 @@
   $usuario1 = new Usuario($nombre,$edad,$pass,$pass2,$email,0,$genero);
 
 	if (isset($_POST["enviando"])){
-  $usuario1->ImprimirDatosUsuario();}
+  $usuario1->transformToJson;}
 
 
 

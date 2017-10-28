@@ -9,11 +9,14 @@ class Usuario{
   private $email;
   private $nacimiento;
   private $genero;
+  private $nombrep;
+  private $apellido;
 
 //constructor
- function Usuario($id,$edad,$contrasena,$contrasena2,$email,$nacimiento, $genero){
+ function Usuario($nombrep, $apellido, $id,$edad,$contrasena,$contrasena2,$email,$nacimiento, $genero){
 
-    //comprueba si hemos pulsado el boton enviar
+     $this->nombrep = $nombrep;
+     $this->apellido = $apellido;
      $this->id = $id; // $post es una variable superglobal de psp (array)
      $this->edad= $edad;
      $this->contrasena= $contrasena;
@@ -64,7 +67,30 @@ function ImprimirDatosUsuario(){
         	return $this->genero;
         }
 
+        function transformToJson(){
+          $data = array(
+            'email' => $this->email,
+            'username' => $this->nombre,
+            'password' => $this->contrasena,
+            'nombre' => $this->nombrep,
+            'apellido' => $this->apellido,
+            'fechaDeNacimiento' => $this->nacimiento
+          );
 
+          $json = json_encode($data);
+          $url = 'http://localhost:3000/usuarios';
+
+          //Iniciar cURL
+          $ch = curl_init($url);
+          //Decir a curl que se quiere mandar un POST
+          curl_setopt($ch, CURLOPT_POST, 1);
+          //Adjuntar el json string al POST
+          curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+          //Configurar el content type a application/json
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+          $result = curl_exec($ch);
+
+        }
 
 }
 
