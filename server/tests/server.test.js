@@ -109,3 +109,38 @@ describe('ENVIAR /tarea', () => {
       });
   });
 });
+<<<<<<< HEAD
+=======
+
+beforeEach((done) => {
+  Usuario.remove({}).then(() => done());
+});
+
+describe('ENVIAR /usuario', () => {
+  it('El email no puede estar repetido', (done) => {
+    var user = {
+      email: "prueba@gmail.com",
+      username: "pruebas",
+      password: "12345678",
+      nombre: "Prueba",
+      apellido: "Demail",
+      fechaDeNacimiento: "08/09/1997"
+    };
+     request(app)
+    .post('/usuarios')
+    .send(user)
+    .end();
+    request(app)
+      .post('/usuarios')
+      .send(user)
+      .expect(400)
+      .end(done); //=> {
+        //if (err)  done(err);
+        // Usuario.find().then((usuarios) => {
+        //   expect(usuarios.length).toBe(1);
+        //   done();
+        // }).catch((e) => done(e));
+    //  });
+  });
+ });
+>>>>>>> RestApp_Heroku
