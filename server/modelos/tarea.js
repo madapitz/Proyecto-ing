@@ -16,7 +16,7 @@ var Tarea = mongoose.model('Todo', {
   descripcion: {
     type: String,
     maxlength: 250,
-    required: false
+    required: true
   },
 
   completado: {
