@@ -58,14 +58,17 @@ function ImprimirDatosUsuario(){
           return $this->genero;
         }
         function transformToJson(){
+
           $data = array(
             'email' => $this->email,
             'username' => $this->id,
             'password' => $this->contrasena,
             'nombre' => $this->nombrep,
             'apellido' => $this->apellido,
-            'fechaDeNacimiento' => $this->nacimiento
+            'fechaDeNacimiento' => $this->nacimiento,
+            'formaDeRegistro' => 'Web'
           );
+
           $json = json_encode($data);
           $url = 'http://localhost:3000/usuarios';
           //Iniciar cURL

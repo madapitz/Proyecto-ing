@@ -3,6 +3,7 @@ const express = require('express');
 const validator = require('validator');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const phpNode = require('php-node') ({bin:'php'});
 
 var {mongoose} = require('./db/mongoose');
 var {Tarea} = require('./modelos/tarea');
@@ -10,11 +11,25 @@ var {Usuario} = require('./modelos/usuario');
 var {autenticar} = require('./middleware/autenticar');
 
 var app = express();
-
 var port = process.env.PORT;
 
-
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/../styles'));
+app.set('views', __dirname + '/../views');
+app.engine('php', phpNode);
+app.set('view engine', 'php');
+
+app.get('/', (req, res) => {
+  res.render('Pantallainicio.php');
+});
+
+app.get('/login', (req, res) => {
+  res.render('Inicio.php');
+});
+
+app.get('/registrar', (req, res) => {
+  res.render('Registro.php');
+});
 
 app.post('/tareas', (req, res) => {
   var tarea = new Tarea({

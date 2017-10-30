@@ -26,7 +26,7 @@
 
 <h1>Ejemplo de registro</h1> <!--titulo-->
 
-<h2>Reg&iacutestrate en Done!</h2>
+<h2>Reg&iacute;strate en Done!</h2>
 
 <!-- -inicia el formulario----------------------------- -->
 <?php
@@ -39,6 +39,7 @@
     $genero = $_POST["genero_usuario"];
     $nombrep = $_POST["nombre_persona"];
     $apellido = $_POST["apellido_persona"];
+    $nacimiento = $_POST["fecha_nacimiento"];
     if(empty($_POST["nombre_usuario"])){
       $nameErr = "Se requiere un nombre de usuario";
     } else{
@@ -64,14 +65,14 @@
 ?>
 
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
+  <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>
   <table align = "center">
     <tr>
       <td id="identificadorentrada">Nombre</td>
       <td>
         <label for="nombre_persona"></label>
         <input type="text" name="nombre_persona" id="nombre_persona" placeholder="Introduzca su nombre">
-      </td> 
+      </td>
     </tr>
 
     <tr>
@@ -124,7 +125,7 @@
       <option value="Mujer"/>
       <option value="Hombre"/>
     </datalist>
-      <td id ="identificadorentrada">G&eacutenero</td>
+      <td id ="identificadorentrada">G&eacute;nero</td>
     <td><label for="genero_usuario"></label>
       <input type="text" name="genero_usuario" id="genero_usuario" list="generos"></td>
     </tr>
@@ -142,16 +143,18 @@
   </table>
 
 </form>
-<!-- -termina el formulario----------------------------- -->
+<!-- -termina el formulario- -->
 
 <h3>Done</h3>
 
 <?php
   include("Usuario.php");
   include("Validador.php");
-  $usuario1 = new Usuario($nombrep,$apellido,$nombre,$edad,$pass,$pass2,$email,0,$genero);
-  if (isset($_POST["enviando"])){
-  $usuario1->transformToJson();}
+
+  $usuario1 = new Usuario($nombrep,$apellido,$nombre,$edad,$pass,$pass2,$email,$nacimiento,$genero);
+  if (isset($_POST["enviando"])) {
+    $usuario1->transformToJson();
+  }
 ?>
 
 </body>
