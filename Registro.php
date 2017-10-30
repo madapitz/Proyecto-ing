@@ -15,9 +15,9 @@
 <!--aqui hay dos hojas, una para las pruebas y otra que se puede usar-->
 
 <style type="text/css">
-	.error{
-		color: red;
-	}
+  .error{
+    color: red;
+  }
 </style>
 
 </head>
@@ -30,46 +30,57 @@
 
 <!-- -inicia el formulario----------------------------- -->
 <?php
-	$nameErr = $passwordErr = $password2Err ="";
-	$nombre = $email = $pass = $pass2 = $genero = "";
-	$edad = 0;
-
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$edad = (int) $_POST["edad_usuario"];
-		$email = $_POST["email_usuario"];
-		$genero = $_POST["genero_usuario"];
-
-		if(empty($_POST["nombre_usuario"])){
-			$nameErr = "Se requiere un nombre de usuario";
-		} else{
-			$nombre = comprobar($_POST["nombre_usuario"]);
-		}
-
-		if (empty($_POST["contrasena_usuario"])){
-			$passwordErr = "Se requiere una contraseña";
-		} else{
-			$pass = comprobar($_POST["contrasena_usuario"]);
-		}
-
-		if(empty($_POST["contrasena_usuario_repetir"])){
-			$password2Err = "Se requiere que repita la contraseña";
-		} else{
-			$pass2 = comprobar($_POST["contrasena_usuario_repetir"]);
-		}
-
-	}
-
-	function comprobar($dato){
-		if(strlen($dato) <= 50){
-			return $dato;
-		}
-		return "";
-	}
+  $nameErr = $passwordErr = $password2Err ="";
+  $nombrep = $apellido =$nombre = $email = $pass = $pass2 = $genero = "";
+  $edad = 0;
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $edad = (int) $_POST["edad_usuario"];
+    $email = $_POST["email_usuario"];
+    $genero = $_POST["genero_usuario"];
+    $nombrep = $_POST["nombre_persona"];
+    $apellido = $_POST["apellido_persona"];
+    if(empty($_POST["nombre_usuario"])){
+      $nameErr = "Se requiere un nombre de usuario";
+    } else{
+      $nombre = comprobar($_POST["nombre_usuario"]);
+    }
+    if (empty($_POST["contrasena_usuario"])){
+      $passwordErr = "Se requiere una contraseña";
+    } else{
+      $pass = comprobar($_POST["contrasena_usuario"]);
+    }
+    if(empty($_POST["contrasena_usuario_repetir"])){
+      $password2Err = "Se requiere que repita la contraseña";
+    } else{
+      $pass2 = comprobar($_POST["contrasena_usuario_repetir"]);
+    }
+  }
+  function comprobar($dato){
+    if(strlen($dato) <= 50){
+      return $dato;
+    }
+    return "";
+  }
 ?>
 
 <form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
   <table align = "center">
+    <tr>
+      <td id="identificadorentrada">Nombre</td>
+      <td>
+        <label for="nombre_persona"></label>
+        <input type="text" name="nombre_persona" id="nombre_persona" placeholder="Introduzca su nombre">
+      </td> 
+    </tr>
+
+    <tr>
+      <td id="identificadorentrada">Apellido</td>
+      <td>
+        <label for="apellido_persona"></label>
+        <input type="text" name="apellido_persona" id="apellido_persona" placeholder="Introduzca su apelldo">
+      </td>
+    </tr>
 
     <tr>
       <td id ="identificadorentrada">E-mail</td>
@@ -109,10 +120,10 @@
 
 
     <tr>
-		<datalist id ="generos">
-		  <option value="Mujer"/>
-		  <option value="Hombre"/>
-		</datalist>
+    <datalist id ="generos">
+      <option value="Mujer"/>
+      <option value="Hombre"/>
+    </datalist>
       <td id ="identificadorentrada">G&eacutenero</td>
     <td><label for="genero_usuario"></label>
       <input type="text" name="genero_usuario" id="genero_usuario" list="generos"></td>
@@ -120,7 +131,7 @@
 
 
     <tr>
-			<td>&nbsp;</td> <!-- &nbsp crea un espacio horizontal -->
+      <td>&nbsp;</td> <!-- &nbsp crea un espacio horizontal -->
       <td>&nbsp;</td> <!--&nbsp crea un espacio horizontal-->
     </tr>
 
@@ -136,19 +147,11 @@
 <h3>Done</h3>
 
 <?php
-
   include("Usuario.php");
   include("Validador.php");
-
-
-
-  $usuario1 = new Usuario($nombre,$edad,$pass,$pass2,$email,0,$genero);
-
-	if (isset($_POST["enviando"])){
-  $usuario1->ImprimirDatosUsuario();}
-
-
-
+  $usuario1 = new Usuario($nombrep,$apellido,$nombre,$edad,$pass,$pass2,$email,0,$genero);
+  if (isset($_POST["enviando"])){
+  $usuario1->transformToJson();}
 ?>
 
 </body>
