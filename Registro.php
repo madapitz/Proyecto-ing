@@ -26,17 +26,17 @@
 
 <h1>Ejemplo de registro</h1> <!--titulo-->
 
-<h2>Reg&iacutestrate en Done!</h2>
+<h2>Reg&iacute;strate en Done!</h2>
 
 <!-- -inicia el formulario----------------------------- -->
 <?php
   $nameErr = $namepErr = $apellidoErr =$passwordErr = $password2Err ="";
-  $nombrep = $apellido =$nombre = $email = $pass = $pass2 = $genero = "";
-  $edad = 0;
+  $nombrep = $apellido =$nombre = $email = $pass = $pass2 = "";
+  $nacimiento = "";
   if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $edad = (int) $_POST["edad_usuario"];
     $email = $_POST["email_usuario"];
-    $genero = $_POST["genero_usuario"];
+    $nacimiento = $_POST["fecha_nacimiento"];
+    
     if(empty($_POST["nombre_persona"])){
       $namepErr = "Se requiere su nombre";
     } else{
@@ -66,15 +66,18 @@
       $password2Err = validarContrasenas($_POST["contrasena_usuario"],$_POST["contrasena_usuario_repetir"]);
     }
   }
+  
   function comprobar($dato, &$err){
     if(strlen($dato) <= 50){
       $err = "";
+      return $dato;
     } else{
     $err = "El campo no puede ser mayor a 50 caracteres";
+      return "";
     }
   }
 
-  function validarContrasenas($contra1, $contra2, &$err){
+  function validarContrasenas($contra1, $contra2){
     if($contra1 === $contra2){
       return "";
     } else{
@@ -83,8 +86,7 @@
   }
 ?>
 
-<form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
+<form method="post" name="datos_usuario" id="datos_usuario" autocomplete="off" action="Registro.php">
   <table align = "center">
     <tr>
       <td id="identificadorentrada">Nombre</td>
@@ -136,27 +138,10 @@
     </tr>
 
     <tr>
-      <td id ="identificadorentrada">Edad</td>
-      <td><label for="edad_usuario"></label>
-      <input type="number" max="100" min="18" name="edad_usuario" id="edad_usuario" placeholder="Edad"></td>
-    </tr>
-
-    <tr>
       <td id ="identificadorentrada">Fecha de nacimiento</td>
       <td><label for="fecha_nacimiento"></label>
       <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"><a href="#" data-toggle="tooltip" title=""> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
         </a></td>
-    </tr>
-
-
-    <tr>
-    <datalist id ="generos">
-      <option value="Mujer"/>
-      <option value="Hombre"/>
-    </datalist>
-      <td id ="identificadorentrada">G&eacutenero</td>
-    <td><label for="genero_usuario"></label>
-      <input type="text" name="genero_usuario" id="genero_usuario" list="generos"></td>
     </tr>
 
 
@@ -174,14 +159,25 @@
 </form>
 <!-- -termina el formulario----------------------------- -->
 
-<h3>Done</h3>
+<h3>Done!</h3>
+
+<ul>
+
+<li><img id ="icono" src="plus.svg" height="40" width="40"/><b id="descripcion_icon">Añade tareas por hacer.</b></li>
+<li><img id ="icono" src="error.svg" height="40" width="40"/><b id="descripcion_icon">Elimina tareas añadidas.</b></li>
+<li><img id ="icono" src="success.svg" height="40" width="40"/><b id="descripcion_icon">Marca tus tareas como completadas.</b></li>
+<li><img id ="icono" src="smartphone.svg" height="40" width="40"/><b id="descripcion_icon">Disponible en dispositivos Android.</b></li>
+<li><img id ="icono" src="list.svg" height="40" width="40"/><b id="descripcion_icon">Categoriza tus tareas.</b></li>
+
+</ul>
 
 <?php
   include("Usuario.php");
   include("Validador.php");
-  $usuario1 = new Usuario($nombrep,$apellido,$nombre,$edad,$pass,$pass2,$email,0,$genero);
-  if (isset($_POST["enviando"])){
-  $usuario1->transformToJson();}
+    $usuario1 = new Usuario($nombrep,$apellido,$nombre,$pass,$pass2,$email,$nacimiento);
+  if (isset($_POST["enviando"])) {
+    $usuario1->transformToJson();
+  }
 ?>
 
 </body>
