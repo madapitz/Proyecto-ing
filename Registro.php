@@ -42,11 +42,13 @@
     } else{
       $nombrep = comprobar($_POST["nombre_persona"],$namepErr);
     }
+
     if(empty($_POST["apellido_persona"])){
       $apellidoErr = "Se requiere su apellido";
     } else{
       $apellido = comprobar($_POST["apellido_persona"],$apellidoErr);
     }
+
     if(empty($_POST["nombre_usuario"])){
       $nameErr = "Se requiere un nombre de usuario";
     } else{
@@ -74,6 +76,7 @@
       return "";
     }
   }
+
   function validarContrasenas($contra1, $contra2){
     if($contra1 === $contra2){
       return "";
