@@ -13,7 +13,7 @@
 <!--<link rel="stylesheet" href="estilos.css"/>-->
 <link rel ="Stylesheet" href="estilos.css"/>
 <!--aqui hay dos hojas, una para las pruebas y otra que se puede usar-->
-
+<script src="https://use.fontawesome.com/5643167d36.js"></script>
 <style type="text/css">
   .error{
     color: red;
@@ -30,36 +30,56 @@
 
 <!-- -inicia el formulario----------------------------- -->
 <?php
-  $nameErr = $passwordErr = $password2Err ="";
+  $nameErr = $namepErr = $apellidoErr =$passwordErr = $password2Err ="";
   $nombrep = $apellido =$nombre = $email = $pass = $pass2 = $genero = "";
   $edad = 0;
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     $edad = (int) $_POST["edad_usuario"];
     $email = $_POST["email_usuario"];
     $genero = $_POST["genero_usuario"];
-    $nombrep = $_POST["nombre_persona"];
-    $apellido = $_POST["apellido_persona"];
+    if(empty($_POST["nombre_persona"])){
+      $namepErr = "Se requiere su nombre";
+    } else{
+      $nombrep = comprobar($_POST["nombre_persona"],$namepErr);
+    }
+
+    if(empty($_POST["apellido_persona"])){
+      $apellidoErr = "Se requiere su apellido";
+    } else{
+      $apellido = comprobar($_POST["apellido_persona"],$apellidoErr);
+    }
+
     if(empty($_POST["nombre_usuario"])){
       $nameErr = "Se requiere un nombre de usuario";
     } else{
-      $nombre = comprobar($_POST["nombre_usuario"]);
+      $nombre = comprobar($_POST["nombre_usuario"], $nameErr);
     }
     if (empty($_POST["contrasena_usuario"])){
       $passwordErr = "Se requiere una contraseña";
     } else{
-      $pass = comprobar($_POST["contrasena_usuario"]);
+      $pass = comprobar($_POST["contrasena_usuario"], $passwordErr);
     }
     if(empty($_POST["contrasena_usuario_repetir"])){
       $password2Err = "Se requiere que repita la contraseña";
     } else{
-      $pass2 = comprobar($_POST["contrasena_usuario_repetir"]);
+      $pass2 = comprobar($_POST["contrasena_usuario_repetir"], $password2Err);
+      $password2Err = validarContrasenas($_POST["contrasena_usuario"],$_POST["contrasena_usuario_repetir"]);
     }
   }
-  function comprobar($dato){
+  function comprobar($dato, &$err){
     if(strlen($dato) <= 50){
-      return $dato;
+      $err = "";
+    } else{
+    $err = "El campo no puede ser mayor a 50 caracteres";
     }
-    return "";
+  }
+
+  function validarContrasenas($contra1, $contra2, &$err){
+    if($contra1 === $contra2){
+      return "";
+    } else{
+      return "Las contrasenas no coinciden";
+    }
   }
 ?>
 
@@ -70,7 +90,8 @@
       <td id="identificadorentrada">Nombre</td>
       <td>
         <label for="nombre_persona"></label>
-        <input type="text" name="nombre_persona" id="nombre_persona" placeholder="Introduzca su nombre">
+        <input type="text" name="nombre_persona" id="nombre_persona" placeholder="Introduzca su nombre"><a href="#" data-toggle="tooltip" title="<?php echo $namepErr; ?>"> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a>
       </td> 
     </tr>
 
@@ -79,31 +100,39 @@
       <td>
         <label for="apellido_persona"></label>
         <input type="text" name="apellido_persona" id="apellido_persona" placeholder="Introduzca su apelldo">
+
+        <a href="#" data-toggle="tooltip" title="<?php echo $apellidoErr; ?>"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a>
+
       </td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">E-mail</td>
       <td><label for="email_usuario"></label>
-      <input type="email" name="email_usuario" id="email_usuario" placeholder="Introduzca un email válido"></td>
+      <input type="email" name="email_usuario" id="email_usuario" placeholder="Introduzca un email válido"><a href="#" data-toggle="tooltip" title=""> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a></td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">Nombre de usuario</td>
       <td><label for="nombre_usuario"></label>
-      <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Elija nombre de usuario"><span class="error">* <?php echo $nameErr; ?></span></td>
+      <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Elija nombre de usuario"><a href="#" data-toggle="tooltip" title="<?php echo $nameErr; ?>"> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a></td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">Contraseña</td>
       <td><label for="contrasena_usuario"></label>
-      <input type="password" name="contrasena_usuario" id="contrasena_usuario" placeholder="Elija constraseña"><span class="error">* <?php echo $passwordErr ?></span></td>
+      <input type="password" name="contrasena_usuario" id="contrasena_usuario" placeholder="Elija constraseña"><a href="#" data-toggle="tooltip" title="<?php echo $passwordErr; ?>"> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a></td>
     </tr>
 
     <tr>
       <td id ="identificadorentrada">Repetir contraseña</td>
       <td><label for="contrasena_usuario_repetir"></label>
-      <input type="password" name="contrasena_usuario_repetir" id="constrasena_usuario_repetir" placeholder="Verificar contraseña"><span class="error">* <?php echo $password2Err ?></span></td>
+      <input type="password" name="contrasena_usuario_repetir" id="constrasena_usuario_repetir" placeholder="Verificar contraseña"><a href="#" data-toggle="tooltip" title="<?php echo $password2Err; ?>"> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a></td>
     </tr>
 
     <tr>
@@ -115,7 +144,8 @@
     <tr>
       <td id ="identificadorentrada">Fecha de nacimiento</td>
       <td><label for="fecha_nacimiento"></label>
-      <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"></td>
+      <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"><a href="#" data-toggle="tooltip" title=""> <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: black"></i>
+        </a></td>
     </tr>
 
 
