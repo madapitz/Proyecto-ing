@@ -12,7 +12,6 @@
 
 
 <!--hojas de estilo-->
-<!--<link rel="stylesheet" href="estilos.css"/>-->
 <link rel ="Stylesheet" href="estilos.css"/>
 <!--aqui hay dos hojas, una para las pruebas y otra que se puede usar-->
 

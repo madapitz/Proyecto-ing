@@ -24,6 +24,30 @@
   background-image: linear-gradient(top, bottom, #3cb0fd, #144b70);
   text-decoration: none;
 }
+/*.boton{
+ -webkit-border-radius: 13;
+-moz-border-radius: 13;
+border-radius: 13px;
+font-family: Arial;
+color: #1f0b1f;
+height: 100px;
+font-size: 150%;
+background: #5d96ab;
+padding: 21px 20px 16px 20px;
+text-decoration: none;
+display:block;
+margin-left: auto;
+margin-right: auto;
+margin-top: 10px;
+position: relative;
+top: 450px;
+white-space:nowrap;
+}
+*/
+/*input {
+top: 400px;
+}*/
+
 /*#img{
   width: 20%;
   height: 10%;
@@ -31,16 +55,19 @@
   top: 10%;
   position: absolute;
 }*/
+
 img.logo{
-  position:fixed;
+ position:fixed;
   width: 30%;
   height: 30%;
-  left: 38%;
+  left: 35%;
 }
+
 ::-webkit-input-placeholder { /* google chrome y edge */
     color:    #CDCDCD;
     padding-left: 5px;
   }
+
 @media only screen and (max-width: 480px) {
   body {
     background-image: url(fondo.svg);
@@ -51,7 +78,8 @@ img.logo{
   body {
     background-image: url(fondo.svg);
   }
-}  
+}
+
 body {
  background-position: center center;
  background-repeat: no-repeat;
